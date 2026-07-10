@@ -14,24 +14,24 @@ namespace Kebab_Mod_Menu_Count
     {
         public override void OnInitializeMelon()
         {
-            LoggerInstance.Msg("MenuLimitMod loaded NEW'ESR");
+            LoggerInstance.Msg("MenuLimitMod loaded!");
 
             try
             {
                 HarmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
                 var patched = HarmonyLib.Harmony.GetAllPatchedMethods().ToList();
-                LoggerInstance.Msg($"Harmony PatchAll OK. Запатчено методов: {patched.Count}");
+                LoggerInstance.Msg($"Harmony PatchAll OK. Patched methods: {patched.Count}");
             }
             catch (Exception e)
             {
-                LoggerInstance.Error("Harmony PatchAll УПАЛ С ОШИБКОЙ: " + e);
+                LoggerInstance.Error("Harmony PatchAll failed with error: " + e);
             }
         }
     }
 
+    // Shared helpers for raising the menu item limit via reflection.
     internal static class Shared
     {
-        // Было: typeof(Menu).GetField(...)  -> теперь GetProperty
         internal static readonly PropertyInfo maxItemProp =
             typeof(Menu).GetProperty("maxItemOnMenu", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance);
 
@@ -41,7 +41,7 @@ namespace Kebab_Mod_Menu_Count
 
             if (maxItemProp == null)
             {
-                MelonLogger.Error($"[{source}] maxItemProp == NULL — свойство 'maxItemOnMenu' не найдено!");
+                MelonLogger.Error($"[{source}] maxItemProp == NULL — property 'maxItemOnMenu' not found!");
                 return;
             }
 
@@ -51,6 +51,7 @@ namespace Kebab_Mod_Menu_Count
         }
     }
 
+    // Re-apply the limit whenever the menu initializes or refreshes.
     [HarmonyPatch(typeof(Menu), "Awake")]
     internal static class AwakePatch
     {
@@ -75,6 +76,7 @@ namespace Kebab_Mod_Menu_Count
         static void Postfix(Menu __instance) => Shared.Override(__instance, "LoadRecipes");
     }
 
+    // Logs current menu capacity when the game checks whether a recipe can be added.
     [HarmonyPatch(typeof(Menu), "CanAddToMenu")]
     internal static class CanAddToMenuPatch
     {
