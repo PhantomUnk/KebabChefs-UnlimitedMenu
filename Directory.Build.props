@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <GamePath>CHANGE_ME_TO_YOUR_GAME_INSTALL_PATH</GamePath>
+  </PropertyGroup>
+  <Import Project="Directory.Build.props.user" Condition="Exists('Directory.Build.props.user')" />
+</Project>
