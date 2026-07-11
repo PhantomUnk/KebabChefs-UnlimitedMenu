@@ -15,13 +15,14 @@ A simple [MelonLoader](https://melonwiki.xyz/) mod for **Kebab Chefs! - Restaura
 
 ## Installation
 
-1. **Install MelonLoader** on your game, if you haven't already:
+1. **If you have a pirated version of the game** (online repack): copy `winmm.dll` from the repack you downloaded and **back it up somewhere safe before installing MelonLoader** — the MelonLoader installer overwrites or removes the existing `winmm.dll` in the game folder. After MelonLoader is installed, put your backed-up `winmm.dll` back into the game's root directory (the same folder as the `.exe`).
+2. **Install MelonLoader** on your game, if you haven't already:
    - Download the MelonLoader installer from [melonloader.com](https://melonloader.com/).
    - Point it at `Kebab Chefs! - Restaurant Simulator.exe`.
    - Launch the game once so MelonLoader can finish first-time setup (this creates the `Mods`, `Plugins`, and `UserData` folders in the game's install directory).
-2. **Download the mod**: grab the latest `.dll` from the [Releases](https://github.com/PhantomUnk/KebabChefs-UnlimitedMenu/releases) page of this repository.
-3. **Drop the `.dll`** into the `Mods` folder inside your game's install directory (the same folder as the game's `.exe`).
-4. Launch the game normally. You should see a line in the MelonLoader console confirming the mod loaded.
+3. **Download the mod**: grab the latest `.dll` from the [Releases](https://github.com/PhantomUnk/KebabChefs-UnlimitedMenu/releases) page of this repository.
+4. **Drop the `.dll`** into the `Mods` folder inside your game's install directory (the same folder as the game's `.exe`).
+5. Launch the game normally. You should see a line in the MelonLoader console confirming the mod loaded.
 
 ## Multiplayer note
 
@@ -29,7 +30,7 @@ The mod can be installed **only on the host** — then everything will work. If 
 
 ## Troubleshooting
 
-- **If you have a pirated version of the game** — drop `winmm.dll` from your online repack.
+- **If you have a pirated version of the game** (online repack) — MelonLoader removes or overwrites `winmm.dll` during installation, which breaks the repack's online fix. Before installing MelonLoader, copy `winmm.dll` from your repack to a safe backup location. After MelonLoader is set up, copy that backed-up `winmm.dll` back into the game's root folder (next to the `.exe`).
 - **Mod doesn't show up in the log at all** — make sure the `.dll` is directly inside the `Mods` folder (not in a subfolder), and that you installed MelonLoader correctly first.
 - **Conflicts with other tools that inject a proxy DLL** (some third-party launch patches or DRM-bypass tools also use a `.dll` with a common name to hook into the game, e.g. `winmm.dll`, `version.dll`, `dinput8.dll`). MelonLoader itself uses `version.dll`. If you use another tool relying on the same filename, only one of them will actually load — rename or restore the appropriate file so both tools use different filenames, if the other tool supports that.
 - Logs are located at `MelonLoader/Logs/Latest.log` in the game's install folder — check there first if something isn't working.
@@ -50,3 +51,7 @@ MIT — see [LICENSE](LICENSE).
 ## Disclaimer
 
 This mod only patches values already present in the shipped game code at runtime (via Harmony) — it does not redistribute, decompile for republishing, or modify the original game files on disk. It requires a legitimate, working installation of the game to function.
+
+## Tags
+
+Kebab Chefs mod, Kebab Chefs! - Restaurant Simulator mod, MelonLoader mod, unlimited menu mod, remove menu limit, menu limit remover, restaurant simulator mod, more dishes mod, no 10 item cap, Kebab Chefs multiplayer mod, winmm.dll MelonLoader, мод Kebab Chefs, мод Kebab Chefs! - Restaurant Simulator, мод MelonLoader, убрать лимит блюд, безлимитное меню, мод на меню ресторана, симулятор ресторана мод, больше блюд в меню, снять ограничение 10 блюд, мод Kebab Chefs мультиплеер, winmm.dll пиратка
