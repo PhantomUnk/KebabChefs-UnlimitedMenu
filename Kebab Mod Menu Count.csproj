@@ -9,7 +9,7 @@
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 		<FileVersion>1.0.0.0</FileVersion>
 		<NeutralLanguage>en-US</NeutralLanguage>
-		<AssemblyName>Kebab_Mod_Menu_Count</AssemblyName>
+		<AssemblyName>KebabChefs_MenuLimitRemover</AssemblyName>
 		<LangVersion>latest</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
@@ -481,6 +481,11 @@
 
 	<ItemGroup>
 		<Compile Include="Core.cs" />
+		<Compile Include="Handlimitpatch.cs" />
+		<Compile Include="ModGUI.cs" />
+		<Compile Include="ModSettings.cs" />
+		<Compile Include="Patches.cs" />
+		<Compile Include="Shared.cs" />
 		<Content Include="Directory.Build.props" />
 	</ItemGroup>
 	
