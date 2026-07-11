@@ -22,6 +22,7 @@ A simple [MelonLoader](https://melonwiki.xyz/) mod for **Kebab Chefs! - Restaura
    - Download the MelonLoader installer from [melonloader.com](https://melonloader.com/).
    - Point it at `Kebab Chefs! - Restaurant Simulator.exe`.
    - Launch the game once so MelonLoader can finish first-time setup (this creates the `Mods`, `Plugins`, and `UserData` folders in the game's install directory).
+   > **Reminder if you have a pirated version:** at this point, put the `winmm.dll` you backed up in step 1 back into the game's root folder (next to the `.exe`), or the repack's online fix won't work.
 3. **Download the mod**: grab the latest `.dll` from the [Releases](https://github.com/PhantomUnk/KebabChefs-UnlimitedMenu/releases) page of this repository.
 4. **Drop the `.dll`** into the `Mods` folder inside your game's install directory (the same folder as the game's `.exe`).
 5. Launch the game normally. You should see a line in the MelonLoader console confirming the mod loaded.
@@ -31,20 +32,20 @@ A simple [MelonLoader](https://melonwiki.xyz/) mod for **Kebab Chefs! - Restaura
 - Press **F7** in-game to open the settings panel.
 - For each limit (menu / hand items) you can toggle **Unlimited**, or turn it off and type a custom number.
 - Click **Apply** to save your changes.
-- **The menu item limit** applies immediately.
-- **The hand item limit** only applies after you return to the main menu and re-enter the save/session (this is a limitation of how that value is read, not a bug — the panel will remind you).
+- **Both limits** (menu and hand items) only apply after you return to the main menu and re-enter the save/session (this is a limitation of how those values are read, not a bug — the panel will remind you).
+- Your settings are saved and persist the next time you launch the game — no need to reconfigure them every session.
 
 ## Multiplayer note
 
-- **Menu limit**: only needs to be installed on the **host** — then everything works for everyone. If it's installed on both host and client, it also works.
-- **Hand limit**: for this to work correctly, **every player in the session should have the mod installed** (this hasn't been extensively tested host-only, so install it on all clients to be safe).
-
+- **Menu limit**: if only the **host** has the mod installed, only the host will be able to add more than the vanilla 10 dishes — but any dishes added past the limit will still show up on both the host's and the clients' screens. For every player to be able to add dishes beyond the limit themselves, everyone needs the mod installed.
+- **Hand limit**: same idea — if only the host has it, only the host can carry more than 5 items. For every player in the session to benefit, everyone should have the mod installed.
 ## Troubleshooting
 
 - **If you have a pirated version of the game** (online repack) — MelonLoader removes or overwrites `winmm.dll` during installation, which breaks the repack's online fix. Before installing MelonLoader, copy `winmm.dll` from your repack to a safe backup location. After MelonLoader is set up, copy that backed-up `winmm.dll` back into the game's root folder (next to the `.exe`).
+- **Can't download MelonLoader** — try enabling a VPN; the download can be blocked or fail in some regions/networks.
 - **Mod doesn't show up in the log at all** — make sure the `.dll` is directly inside the `Mods` folder (not in a subfolder), and that you installed MelonLoader correctly first.
 - **F7 doesn't open anything** — make sure the mod loaded correctly (check the log), and that no other tool/mod is already bound to F7.
-- **Hand limit doesn't seem to apply** — remember it only takes effect after returning to the main menu and re-entering; also make sure all players in the session have the mod installed.
+- **A limit doesn't seem to apply** — remember both the menu and hand limits only take effect after returning to the main menu and re-entering the save/session; also make sure all players in the session have the mod installed if you want everyone to benefit.
 - **Conflicts with other tools that inject a proxy DLL** (some third-party launch patches or DRM-bypass tools also use a `.dll` with a common name to hook into the game, e.g. `winmm.dll`, `version.dll`, `dinput8.dll`). MelonLoader itself uses `version.dll`. If you use another tool relying on the same filename, only one of them will actually load — rename or restore the appropriate file so both tools use different filenames, if the other tool supports that.
 - Logs are located at `MelonLoader/Logs/Latest.log` in the game's install folder — check there first if something isn't working.
 
