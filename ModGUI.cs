@@ -17,13 +17,16 @@ namespace Kebab_Mod_Menu_Count
         // ---- Texts ----
         private const string PanelTitle = "MOD SETTINGS";
         private const string MenuToggleLabel = "Unlimited menu items";
-        private const string MenuInputLabel = "Menu limit (if not unlimited)";
+        private const string MenuInputLabel = "Custom menu limit";
         private const string HandToggleLabel = "Unlimited hand items";
-        private const string HandInputLabel = "Hand limit (if not unlimited)";
+        private const string HandInputLabel = "Custom hand limit";
+        private const string RestaurantSectionTitle = "Restaurant settings";
+        private const string QueuePointsLabel = "Max customers in queue";
+        private const string GroupSpawnLabel = "Max customer groups at once";
+        private const string ExpectedCustomersLabel = "Max daily customers";
         private const string ApplyButtonLabel = "Apply";
         private const string AppliedStatusText =
-            "Applied! Return to main menu and re-enter to apply the hand item limit.";
-
+            "Saved! Return to the main menu and reload your save for hand, queue, and customer changes to take effect.";
         // ---- Canvas / Scaler ----
         private const int CanvasSortingOrder = 1000;
         private const float ReferenceResolutionWidth = 1920f;
@@ -86,6 +89,9 @@ namespace Kebab_Mod_Menu_Count
         private static GameObject _canvasRoot;
         private static InputField _menuInput;
         private static InputField _handInput;
+        private static InputField _queuePointsInput;
+        private static InputField _groupSpawnInput;
+        private static InputField _expectedCustomersInput;
         private static Toggle _menuToggle;
         private static Toggle _handToggle;
         private static Text _statusText;
@@ -152,13 +158,7 @@ namespace Kebab_Mod_Menu_Count
             CreateLabel(panel, PanelTitle, TitleFontSize, Accent, TextAnchor.MiddleCenter, FontStyle.Bold);
 
             // Thin divider
-            var divider = new GameObject("Divider");
-            divider.transform.SetParent(panel.transform, false);
-            var divRect = divider.AddComponent<RectTransform>();
-            var divLayout = divider.AddComponent<LayoutElement>();
-            divLayout.preferredHeight = DividerHeight;
-            var divImg = divider.AddComponent<Image>();
-            divImg.color = new Color(Accent.r, Accent.g, Accent.b, DividerAlpha);
+            CreateDivider(panel);
 
             // "Menu" section
             _menuToggle = CreateToggleRow(panel, MenuToggleLabel);
@@ -168,6 +168,15 @@ namespace Kebab_Mod_Menu_Count
             _handToggle = CreateToggleRow(panel, HandToggleLabel);
             _handInput = CreateLabeledInput(panel, HandInputLabel);
 
+            // Divider before restaurant-limits section
+            CreateDivider(panel);
+
+            // "Restaurant limits" section (queue points / group spawn points / expected customers)
+            CreateLabel(panel, RestaurantSectionTitle, MutedLabelFontSize, TextMuted, TextAnchor.MiddleCenter, FontStyle.Bold);
+            _queuePointsInput = CreateLabeledInput(panel, QueuePointsLabel);
+            _groupSpawnInput = CreateLabeledInput(panel, GroupSpawnLabel);
+            _expectedCustomersInput = CreateLabeledInput(panel, ExpectedCustomersLabel);
+
             // Apply button
             CreateButtonRow(panel, ApplyButtonLabel, Apply);
 
@@ -175,6 +184,17 @@ namespace Kebab_Mod_Menu_Count
             _statusText = CreateLabel(panel, "", MutedLabelFontSize, TextMuted, TextAnchor.MiddleCenter, FontStyle.Italic);
             var statusLayout = _statusText.gameObject.AddComponent<LayoutElement>();
             statusLayout.minHeight = StatusMinHeight;
+        }
+
+        private static void CreateDivider(GameObject parent)
+        {
+            var divider = new GameObject("Divider");
+            divider.transform.SetParent(parent.transform, false);
+            divider.AddComponent<RectTransform>();
+            var divLayout = divider.AddComponent<LayoutElement>();
+            divLayout.preferredHeight = DividerHeight;
+            var divImg = divider.AddComponent<Image>();
+            divImg.color = new Color(Accent.r, Accent.g, Accent.b, DividerAlpha);
         }
 
         private static void EnsureEventSystem()
@@ -213,6 +233,10 @@ namespace Kebab_Mod_Menu_Count
             _menuInput.text = ModSettings.MenuCustomValue.ToString();
             _handToggle.isOn = ModSettings.HandUnlimited;
             _handInput.text = ModSettings.HandCustomValue.ToString();
+
+            _queuePointsInput.text = ModSettings.QueuePointsCount.ToString();
+            _groupSpawnInput.text = ModSettings.GroupSpawnPointsCount.ToString();
+            _expectedCustomersInput.text = ModSettings.ExpectedCustomers.ToString();
         }
 
         private static void Apply()
@@ -225,8 +249,22 @@ namespace Kebab_Mod_Menu_Count
             if (int.TryParse(_handInput.text, out int handVal))
                 ModSettings.HandCustomValue = Mathf.Max(1, handVal);
 
+            // Minimum 2 points - otherwise ExtendTransformArrayProperty won't be able
+            // to extrapolate the offset between the last two points.
+            if (int.TryParse(_queuePointsInput.text, out int queueVal))
+                ModSettings.QueuePointsCount = Mathf.Max(2, queueVal);
+
+            if (int.TryParse(_groupSpawnInput.text, out int groupVal))
+                ModSettings.GroupSpawnPointsCount = Mathf.Max(2, groupVal);
+
+            if (int.TryParse(_expectedCustomersInput.text, out int custVal))
+                ModSettings.ExpectedCustomers = Mathf.Max(0, custVal);
+
             MelonLogger.Msg("[KebabMod] Applied. Menu=" + ModSettings.MaxMenuItems +
-                             " Hand=" + ModSettings.MaxHandItems);
+                             " Hand=" + ModSettings.MaxHandItems +
+                             " Queue=" + ModSettings.QueuePointsCount +
+                             " GroupSpawn=" + ModSettings.GroupSpawnPointsCount +
+                             " ExpectedCustomers=" + ModSettings.ExpectedCustomers);
 
             _statusText.text = AppliedStatusText;
         }

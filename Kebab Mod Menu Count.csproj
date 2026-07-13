@@ -481,10 +481,12 @@
 
 	<ItemGroup>
 		<Compile Include="Core.cs" />
+		<Compile Include="Diagnosticdump.cs" />
 		<Compile Include="Handlimitpatch.cs" />
 		<Compile Include="ModGUI.cs" />
 		<Compile Include="ModSettings.cs" />
 		<Compile Include="Patches.cs" />
+		<Compile Include="Queuelimitpatch.cs" />
 		<Compile Include="Shared.cs" />
 		<Content Include="Directory.Build.props" />
 	</ItemGroup>

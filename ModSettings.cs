@@ -12,9 +12,31 @@ namespace Kebab_Mod_Menu_Count
         private static MelonPreferences_Entry<bool> _handUnlimited;
         private static MelonPreferences_Entry<int> _handCustomValue;
 
+        private static MelonPreferences_Entry<int> _queuePointsCount;
+        private static MelonPreferences_Entry<int> _groupSpawnPointsCount;
+        private static MelonPreferences_Entry<int> _expectedCustomers;
+
         // "Active" values that the patches actually read
         public static int MaxMenuItems => _menuUnlimited.Value ? 999 : _menuCustomValue.Value;
         public static int MaxHandItems => _handUnlimited.Value ? 200 : _handCustomValue.Value;
+
+        public static int QueuePointsCount
+        {
+            get => _queuePointsCount.Value;
+            set { _queuePointsCount.Value = value; _category.SaveToFile(false); }
+        }
+
+        public static int GroupSpawnPointsCount
+        {
+            get => _groupSpawnPointsCount.Value;
+            set { _groupSpawnPointsCount.Value = value; _category.SaveToFile(false); }
+        }
+
+        public static int ExpectedCustomers
+        {
+            get => _expectedCustomers.Value;
+            set { _expectedCustomers.Value = value; _category.SaveToFile(false); }
+        }
 
         public static bool MenuUnlimited
         {
@@ -49,6 +71,10 @@ namespace Kebab_Mod_Menu_Count
 
             _handUnlimited = _category.CreateEntry("HandUnlimited", true, "Unlimited hand items");
             _handCustomValue = _category.CreateEntry("HandCustomValue", 5, "Custom hand item limit");
+
+            _queuePointsCount = _category.CreateEntry("QueuePointsCount", 200, "Queue points count");
+            _groupSpawnPointsCount = _category.CreateEntry("GroupSpawnPointsCount", 50, "Group spawn points count");
+            _expectedCustomers = _category.CreateEntry("ExpectedCustomers", 999, "Expected customers");
         }
     }
 }
